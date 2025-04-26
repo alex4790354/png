@@ -8,13 +8,20 @@ public class Pokemon {
     private String name;
     private String stage;
     @JsonProperty("photo_id")
-    private int photo_id;
+    private int photoId;
     private int attack;
     @JsonProperty("trainer_id")
-    private String trainer_id;
+    private String trainerId;
     private int status;
     @JsonProperty("in_pokeball")
-    private int in_pokeball;
+    private int inPokeball;
+
+    public Pokemon() {};
+
+    public Pokemon(String name, int photo_id) {
+        this.name = name;
+        this.photoId = photo_id;
+    }
 
     /// ////////////
 
@@ -42,12 +49,12 @@ public class Pokemon {
         this.stage = stage;
     }
 
-    public int getPhoto_id() {
-        return photo_id;
+    public int getPhotoId() {
+        return photoId;
     }
 
-    public void setPhoto_id(int photo_id) {
-        this.photo_id = photo_id;
+    public void setPhotoId(int photoId) {
+        this.photoId = photoId;
     }
 
     public int getAttack() {
@@ -58,12 +65,12 @@ public class Pokemon {
         this.attack = attack;
     }
 
-    public String getTrainer_id() {
-        return trainer_id;
+    public String getTrainerId() {
+        return trainerId;
     }
 
-    public void setTrainer_id(String trainer_id) {
-        this.trainer_id = trainer_id;
+    public void setTrainerId(String trainerId) {
+        this.trainerId = trainerId;
     }
 
     public int getStatus() {
@@ -74,11 +81,11 @@ public class Pokemon {
         this.status = status;
     }
 
-    public int getIn_pokeball() {
-        return in_pokeball;
+    public int getInPokeball() {
+        return inPokeball;
     }
 
-    public void setIn_pokeball(int in_pokeball) {
-        this.in_pokeball = in_pokeball;
+    public void setInPokeball(int inPokeball) {
+        this.inPokeball = inPokeball;
     }
 }

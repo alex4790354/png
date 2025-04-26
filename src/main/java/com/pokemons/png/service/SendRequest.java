@@ -42,6 +42,7 @@ public class SendRequest {
         } catch (HttpClientErrorException e) {
             System.out.println("HTTP error occurred: " + e.getStatusCode());
             System.out.println("Error response: " + e.getResponseBodyAsString());
+            message.setMessage("HttpClientErrorException. " + e);
         } catch (JsonMappingException e) {
             message.setMessage("JsonMappingException. " + e);
         } catch (JsonProcessingException e) {
