@@ -14,7 +14,8 @@ public class ResponseMessage {
     private String battleLimit;
     private String status;
     private String statusCode;
-
+    private String trainer_name;
+    private int level;
 
     private List<Pokemon> data;
 
@@ -73,5 +74,21 @@ public class ResponseMessage {
 
     public void setData(List<Pokemon> data) {
         this.data = data;
+    }
+
+    public String getTrainer_name() {
+        return trainer_name;
+    }
+
+    public void setTrainer_name(String trainer_name) {
+        this.trainer_name = trainer_name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

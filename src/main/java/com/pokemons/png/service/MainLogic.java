@@ -7,7 +7,9 @@ import com.pokemons.png.request.Pokemon;
 import com.pokemons.png.response.ResponseMessage;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
@@ -17,7 +19,7 @@ import java.util.Comparator;
 @Component
 public class MainLogic {
 
-    private int count = 870; //675
+    private int count = 875; //872
     private final SendRequest sendRequest;
     private final List<Pokemon> pokemonNames = Arrays.asList(
         /*new Pokemon("JSON", 311),
@@ -30,13 +32,14 @@ public class MainLogic {
     private final String MY_TRAINER_ID = "36046";
     private boolean isLastBattle = false;
     private int sleepCount = 0;
-    private int sleepTime = 30_000;
+    private int sleepTime = 61_000;
     String POKEMON_INTO_BALL_URL = "HTTPS://api.pokemonbattle.ru/v2/trainers/add_pokeball";
     String POKEMON_FROM_BALL_URL = "HTTPS://api.pokemonbattle.ru/v2/trainers/delete_pokeball";
 
     List<Pokemon> allPokemons = new ArrayList<>();
     List<Pokemon> myPokemons = new ArrayList<>();
     List<Pokemon> enemyPokemons = new ArrayList<>();
+    Map<String, Integer> trainersMap = new HashMap<>();
 
     @Autowired
     public MainLogic(SendRequest sendRequest) {
@@ -72,7 +75,8 @@ public class MainLogic {
             }
 
             if (!enemyPokemons.isEmpty()) {
-                enemyPokemonId = enemyPokemons.getFirst().getId();
+                setTrainerHashMap();
+                enemyPokemonId = getEnemyId(); // enemyPokemons.getFirst().getId();
             }
 
             if (enemyPokemonId.equals("0")) {
@@ -179,6 +183,27 @@ public class MainLogic {
             System.out.println("Thread was interrupted, failed to complete sleep");
         }
         myPokemons = sendRequest.makeRequest("", MY_POKEMON_LIST_URL, HttpMethod.GET).getData();
+    }
+
+    private void setTrainerHashMap() {
+        String TRAINER_INFO_URL = "https://api.pokemonbattle.ru/v2/trainers/";
+        ResponseMessage trainer;
+        for (Pokemon pokemon : enemyPokemons) {
+            if (!trainersMap.containsKey(pokemon.getTrainerId())) {
+                trainer = sendRequest.makeRequest("", TRAINER_INFO_URL + pokemon.getTrainerId(), HttpMethod.GET);
+                trainersMap.put(trainer.getId(), trainer.getLevel());
+            }
+        }
+    }
+
+    private String getEnemyId() {
+
+        return enemyPokemons.stream()
+            .filter(pokemon -> pokemon.getAttack() == 1)
+            .filter(pokemon -> trainersMap.get(pokemon.getTrainerId()) != null && trainersMap.get(pokemon.getTrainerId()) == 1)
+            .findFirst()
+            .map(Pokemon::getId)
+            .orElse("0");
     }
 
 }
