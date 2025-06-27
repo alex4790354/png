@@ -22,11 +22,10 @@ import java.util.Comparator;
 public class MainLogic {
 
     private int CURRENT_COUNT = 101; // 697
-    private final int MAX_TRAINER_LEVEL = 6; // min:2, max:6
+    private final int MAX_TRAINER_LEVEL = 7; // min:2, max:6
     private final int MAX_ATTACK_LEVEL = 1;
     private final boolean isLeaveInPokeBall = true;
     private final int leaveAtackLevel = 2;
-    private final boolean isCreateAlltheTime = true;
 
     private final String MY_TRAINER_ID = "36046";
     private boolean isLastBattle = false;
@@ -234,7 +233,7 @@ public class MainLogic {
         List<Pokemon> myPokemons1 = sendRequest.makeRequest("", MY_POKEMON_LIST_URL, HttpMethod.GET).getData();
         myPokemons = myPokemons1.stream()
             .filter(pokemon -> !pokemon.getId().equals("311111"))
-            .filter(pokemon -> !pokemon.getId().equals("317409"))
+            .filter(pokemon -> !pokemon.getId().equals("336864"))
             .sorted(Comparator.comparingInt(Pokemon::getAttack)
                 .thenComparing(Pokemon::getId))
             .toList();
